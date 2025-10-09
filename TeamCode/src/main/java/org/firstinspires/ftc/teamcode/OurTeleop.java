@@ -107,8 +107,8 @@ public class OurTeleop extends OpMode{
         double right;
 
         // Run wheels in tank mode (note: The joystick goes negative when pushed forward, so negate it)
-        left = -gamepad1.left_stick_y ;
-        right = -gamepad1.right_stick_y;
+        left = -gamepad1.left_stick_y *.5;
+        right = -gamepad1.right_stick_y *.5;
 
         left1Drive.setPower(left);
         right1Drive.setPower(right);
