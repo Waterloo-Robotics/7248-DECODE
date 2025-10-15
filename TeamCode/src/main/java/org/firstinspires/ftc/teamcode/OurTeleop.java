@@ -50,10 +50,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class OurTeleop extends OpMode{
 
     /* Declare OpMode members. */
-    public DcMotor left1Drive = null;
-    public DcMotor right1Drive = null;
-    public DcMotor left2Drive = null;
-    public DcMotor right2Drive = null;
+    public DcMotor frontLeftMotor = null;
+    public DcMotor frontRightMotor = null;
+    public DcMotor backLeftMotor = null;
+    public DcMotor backRightMotor = null;
 
 
     /*
@@ -62,18 +62,18 @@ public class OurTeleop extends OpMode{
     @Override
     public void init() {
         // Define and Initialize Motors
-        left1Drive = hardwareMap.get(DcMotor.class, "left_drive");
-        right1Drive = hardwareMap.get(DcMotor.class, "right_drive");
-        left2Drive = hardwareMap.get(DcMotor.class, "left_2drive");
-        right2Drive = hardwareMap.get(DcMotor.class, "right_2drive");
+        frontLeftMotor = hardwareMap.get(DcMotor.class, "left_drive");
+        frontRightMotor = hardwareMap.get(DcMotor.class, "right_drive");
+        backLeftMotor = hardwareMap.get(DcMotor.class, "left_2drive");
+        backRightMotor = hardwareMap.get(DcMotor.class, "right_2drive");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left and right sticks forward MUST make robot go forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
-        left1Drive.setDirection(DcMotor.Direction.FORWARD);
-        right1Drive.setDirection(DcMotor.Direction.REVERSE);
-        left2Drive.setDirection(DcMotor.Direction.FORWARD);
-        right2Drive.setDirection(DcMotor.Direction.REVERSE);
+        frontLeftMotor.setDirection(DcMotor.Direction.FORWARD);
+        frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotor.Direction.FORWARD);
+        backRightMotor.setDirection(DcMotor.Direction.REVERSE);
 
         // If there are encoders connected, switch to RUN_USING_ENCODER mode for greater accuracy
         // leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -103,21 +103,24 @@ public class OurTeleop extends OpMode{
      */
     @Override
     public void loop() {
-        double left;
-        double right;
 
-        // Run wheels in tank mode (note: The joystick goes negative when pushed forward, so negate it)
-        left = -gamepad1.left_stick_y *.5;
-        right = -gamepad1.right_stick_y *.5;
+        double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
+        double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
+        double rx = gamepad1.right_stick_x;
 
-        left1Drive.setPower(left);
-        right1Drive.setPower(right);
-        left2Drive.setPower(left);
-        right2Drive.setPower(right);
+        // Denominator is the largest motor power (absolute value) or 1
+        // This ensures all the powers maintain the same ratio,
+        // but only if at least one is out of the range [-1, 1]
+        double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
+        double frontLeftPower = (y + x + rx) / denominator;
+        double backLeftPower = (y - x + rx) / denominator;
+        double frontRightPower = (y - x - rx) / denominator;
+        double backRightPower = (y + x - rx) / denominator;
 
-
-        telemetry.addData("left",  "%.2f", left);
-        telemetry.addData("right", "%.2f", right);
+        frontLeftMotor.setPower(frontLeftPower);
+        backLeftMotor.setPower(backLeftPower);
+        frontRightMotor.setPower(frontRightPower);
+        backRightMotor.setPower(backRightPower);
     }
 
     /*

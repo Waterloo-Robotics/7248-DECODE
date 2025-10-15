@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name = "shooterTeleop", group = "Concept")
-public class shooterTeleop extends OpMode {
+public class shooterprototypeTeleop extends OpMode {
     private DcMotor motor; // flywheel motor
     private int motor_speed = 0; // 0 = off, 1-4 = power levels
     private boolean prevRightBumper = false;
