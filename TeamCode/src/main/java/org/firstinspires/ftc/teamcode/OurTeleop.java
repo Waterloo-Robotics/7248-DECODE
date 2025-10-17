@@ -54,6 +54,7 @@ public class OurTeleop extends OpMode{
     public DcMotor frontRightMotor = null;
     public DcMotor backLeftMotor = null;
     public DcMotor backRightMotor = null;
+    public DcMotor Input = null;
 
 
     /*
@@ -66,6 +67,7 @@ public class OurTeleop extends OpMode{
         frontRightMotor = hardwareMap.get(DcMotor.class, "right_drive");
         backLeftMotor = hardwareMap.get(DcMotor.class, "left_2drive");
         backRightMotor = hardwareMap.get(DcMotor.class, "right_2drive");
+        Input = hardwareMap.get(DcMotor.class, "Input");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left and right sticks forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -121,6 +123,7 @@ public class OurTeleop extends OpMode{
         backLeftMotor.setPower(backLeftPower);
         frontRightMotor.setPower(frontRightPower);
         backRightMotor.setPower(backRightPower);
+        Input.setPower(gamepad2.left_stick_y);
     }
 
     /*
