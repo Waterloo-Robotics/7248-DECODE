@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 /*
  * This OpMode executes a Tank Drive control TeleOp a direct drive robot
@@ -55,7 +56,10 @@ public class OurTeleop extends OpMode{
     public DcMotor backLeftMotor = null;
     public DcMotor backRightMotor = null;
     public DcMotor intake = null;
+    public DcMotorEx flywheel = null;
 
+
+    double desired_speed_rpm;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -68,6 +72,7 @@ public class OurTeleop extends OpMode{
         backLeftMotor = hardwareMap.get(DcMotor.class, "left_2drive");
         backRightMotor = hardwareMap.get(DcMotor.class, "right_2drive");
         intake = hardwareMap.get(DcMotor.class, "intake");
+        flywheel = hardwareMap.get(DcMotorEx.class, "shooter");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left and right sticks forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -134,6 +139,35 @@ public class OurTeleop extends OpMode{
         if (gamepad2.bWasPressed()) {
             intake.setPower(0);
         }
+
+
+
+
+
+        // Get current motor speed in revolutions per minute (RPM)
+        double wheel_speed_deg_p_sec = flywheel.getVelocity();
+        double wheel_rpm = (wheel_speed_deg_p_sec / 28) * 60;
+
+        // Tell it what speed we want it to go
+        desired_speed_rpm += -gamepad2.left_stick_y * 10;
+
+        if (desired_speed_rpm > 4100)
+        {
+            desired_speed_rpm = 4100;
+        }
+        else if (desired_speed_rpm < 0)
+        {
+            desired_speed_rpm = 0;
+        }
+
+        // Convert the desired speed to a motor power
+        double motor_power = (desired_speed_rpm) / 4100;
+
+        // How far away are we from our desired speed
+        double error = desired_speed_rpm - wheel_rpm;
+        double extra_power = error * 0.002;
+
+        flywheel.setPower(motor_power + extra_power);
     }
 
     /*
