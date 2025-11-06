@@ -160,6 +160,15 @@ public class OurTeleop extends OpMode{
             desired_speed_rpm = 0;
         }
 
+        if (gamepad2.rightBumperWasPressed()){
+            desired_speed_rpm = 4000;
+        }
+        if (gamepad2.leftBumperWasPressed()){
+            desired_speed_rpm = 0;
+        }
+
+
+
         // Convert the desired speed to a motor power
         double motor_power = (desired_speed_rpm) / 4100;
 
