@@ -46,7 +46,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Robot: Teleop Tank", group="Robot")
+@TeleOp(name="Sea of Electrons", group="Robot")
 public class OurTeleop extends OpMode{
 
     /* Declare OpMode members. */
@@ -54,7 +54,7 @@ public class OurTeleop extends OpMode{
     public DcMotor frontRightMotor = null;
     public DcMotor backLeftMotor = null;
     public DcMotor backRightMotor = null;
-    public DcMotor Input = null;
+    public DcMotor intake = null;
 
 
     /*
@@ -67,15 +67,15 @@ public class OurTeleop extends OpMode{
         frontRightMotor = hardwareMap.get(DcMotor.class, "right_drive");
         backLeftMotor = hardwareMap.get(DcMotor.class, "left_2drive");
         backRightMotor = hardwareMap.get(DcMotor.class, "right_2drive");
-        Input = hardwareMap.get(DcMotor.class, "Input");
+        intake = hardwareMap.get(DcMotor.class, "intake");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left and right sticks forward MUST make robot go forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
-        frontLeftMotor.setDirection(DcMotor.Direction.FORWARD);
-        frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
-        backLeftMotor.setDirection(DcMotor.Direction.FORWARD);
-        backRightMotor.setDirection(DcMotor.Direction.REVERSE);
+        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
+        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotor.Direction.FORWARD);
 
         // If there are encoders connected, switch to RUN_USING_ENCODER mode for greater accuracy
         // leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -123,7 +123,17 @@ public class OurTeleop extends OpMode{
         backLeftMotor.setPower(backLeftPower);
         frontRightMotor.setPower(frontRightPower);
         backRightMotor.setPower(backRightPower);
-        Input.setPower(gamepad2.left_stick_y);
+
+
+
+
+        if (gamepad2.aWasPressed())
+        {
+            intake.setPower(1);
+        }
+        if (gamepad2.bWasPressed()) {
+            intake.setPower(0);
+        }
     }
 
     /*
