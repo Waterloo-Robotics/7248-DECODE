@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /*
  * This OpMode executes a Tank Drive control TeleOp a direct drive robot
@@ -57,6 +58,8 @@ public class OurTeleop extends OpMode{
     public DcMotor backRightMotor = null;
     public DcMotor intake = null;
     public DcMotorEx flywheel = null;
+    public Servo stop_servo = null;
+
 
 
     double desired_speed_rpm;
@@ -73,6 +76,7 @@ public class OurTeleop extends OpMode{
         backRightMotor = hardwareMap.get(DcMotor.class, "right_2drive");
         intake = hardwareMap.get(DcMotor.class, "intake");
         flywheel = hardwareMap.get(DcMotorEx.class, "shooter");
+        stop_servo = hardwareMap.get(Servo.class, "stop_servo");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left and right sticks forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -131,7 +135,6 @@ public class OurTeleop extends OpMode{
 
 
 
-
         if (gamepad2.aWasPressed())
         {
             intake.setPower(1);
@@ -140,8 +143,17 @@ public class OurTeleop extends OpMode{
             intake.setPower(0);
         }
 
+        double stop_servo_open = 0.5;
+        double stop_servo_closed = 0.25;
 
-
+        if (gamepad2.xWasPressed())
+        {
+            stop_servo.setPosition(stop_servo_open);
+        }
+        if (gamepad2.yWasPressed())
+        {
+            stop_servo.setPosition(stop_servo_closed);
+        }
 
 
         // Get current motor speed in revolutions per minute (RPM)
@@ -167,8 +179,6 @@ public class OurTeleop extends OpMode{
             desired_speed_rpm = 0;
         }
 
-
-
         // Convert the desired speed to a motor power
         double motor_power = (desired_speed_rpm) / 4100;
 
@@ -177,6 +187,11 @@ public class OurTeleop extends OpMode{
         double extra_power = error * 0.002;
 
         flywheel.setPower(motor_power + extra_power);
+
+
+
+
+
     }
 
     /*
