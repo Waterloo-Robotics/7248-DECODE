@@ -59,7 +59,7 @@ public class OurTeleop extends OpMode{
     public DcMotor intake = null;
     public DcMotorEx flywheel = null;
     public Servo stop_servo = null;
-
+    public Servo open_servo = null;
 
 
     double desired_speed_rpm;
@@ -77,6 +77,7 @@ public class OurTeleop extends OpMode{
         intake = hardwareMap.get(DcMotor.class, "intake");
         flywheel = hardwareMap.get(DcMotorEx.class, "shooter");
         stop_servo = hardwareMap.get(Servo.class, "stop_servo");
+        open_servo = hardwareMap.get(Servo.class, "open_servo");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left and right sticks forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -146,15 +147,25 @@ public class OurTeleop extends OpMode{
         double stop_servo_open = 0.5;
         double stop_servo_closed = 0.25;
 
-        if (gamepad2.xWasPressed())
+        if (gamepad2.left_trigger > 0.2)
         {
             stop_servo.setPosition(stop_servo_open);
         }
-        if (gamepad2.yWasPressed())
+        if (gamepad2.right_trigger > 0.2)
         {
             stop_servo.setPosition(stop_servo_closed);
         }
+        double open_servo_open = 0.5;
+        double open_servo_closed = 0;
 
+        if (gamepad2.rightBumperWasPressed())
+        {
+            open_servo.setPosition(open_servo_open);
+        }
+        if (gamepad2.leftBumperWasPressed())
+        {
+            open_servo.setPosition(open_servo_closed);
+        }
 
         // Get current motor speed in revolutions per minute (RPM)
         double wheel_speed_deg_p_sec = flywheel.getVelocity();
