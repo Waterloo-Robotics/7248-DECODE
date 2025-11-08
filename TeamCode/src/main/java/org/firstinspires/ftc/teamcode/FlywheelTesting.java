@@ -33,7 +33,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 /*
  * This OpMode executes a Tank Drive control TeleOp a direct drive robot
@@ -48,21 +49,13 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Sea of Electrons", group="Robot")
-public class OurTeleop extends OpMode{
+@TeleOp(name="Flywheel Testing", group="Robot")
+public class FlywheelTesting extends OpMode{
 
     /* Declare OpMode members. */
-    public DcMotor frontLeftMotor = null;
-    public DcMotor frontRightMotor = null;
-    public DcMotor backLeftMotor = null;
-    public DcMotor backRightMotor = null;
-    public DcMotor intake = null;
     public DcMotorEx flywheel = null;
-    public Servo stop_servo = null;
-    public Servo open_servo = null;
-
-
     double desired_speed_rpm;
+
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -70,27 +63,7 @@ public class OurTeleop extends OpMode{
     @Override
     public void init() {
         // Define and Initialize Motors
-        frontLeftMotor = hardwareMap.get(DcMotor.class, "left_drive");
-        frontRightMotor = hardwareMap.get(DcMotor.class, "right_drive");
-        backLeftMotor = hardwareMap.get(DcMotor.class, "left_2drive");
-        backRightMotor = hardwareMap.get(DcMotor.class, "right_2drive");
-        intake = hardwareMap.get(DcMotor.class, "intake");
-        flywheel = hardwareMap.get(DcMotorEx.class, "shooter");
-        stop_servo = hardwareMap.get(Servo.class, "stop_servo");
-        open_servo = hardwareMap.get(Servo.class, "open_servo");
-
-        // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
-        // Pushing the left and right sticks forward MUST make robot go forward. So adjust these two lines based on your first test drive.
-        // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
-        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-        frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
-        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotor.Direction.FORWARD);
-
-        // If there are encoders connected, switch to RUN_USING_ENCODER mode for greater accuracy
-        // leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        // rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+        flywheel = hardwareMap.get(DcMotorEx.class, "motor");
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData(">", "Robot Ready.  Press START.");    //
@@ -115,64 +88,12 @@ public class OurTeleop extends OpMode{
      */
     @Override
     public void loop() {
-
-        double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
-        double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
-        double rx = gamepad1.right_stick_x;
-
-        // Denominator is the largest motor power (absolute value) or 1
-        // This ensures all the powers maintain the same ratio,
-        // but only if at least one is out of the range [-1, 1]
-        double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-        double frontLeftPower = (y + x + rx) / denominator;
-        double backLeftPower = (y - x + rx) / denominator;
-        double frontRightPower = (y - x - rx) / denominator;
-        double backRightPower = (y + x - rx) / denominator;
-
-        frontLeftMotor.setPower(frontLeftPower);
-        backLeftMotor.setPower(backLeftPower);
-        frontRightMotor.setPower(frontRightPower);
-        backRightMotor.setPower(backRightPower);
-
-
-
-        if (gamepad2.aWasPressed())
-        {
-            intake.setPower(1);
-        }
-        if (gamepad2.bWasPressed()) {
-            intake.setPower(0);
-        }
-
-        double stop_servo_open = 0.5;
-        double stop_servo_closed = 0.25;
-
-        if (gamepad2.left_trigger > 0.2)
-        {
-            stop_servo.setPosition(stop_servo_open);
-        }
-        if (gamepad2.right_trigger > 0.2)
-        {
-            stop_servo.setPosition(stop_servo_closed);
-        }
-        double open_servo_open = 0.5;
-        double open_servo_closed = 0;
-
-        if (gamepad2.rightBumperWasPressed())
-        {
-            open_servo.setPosition(open_servo_open);
-        }
-        if (gamepad2.leftBumperWasPressed())
-        {
-            open_servo.setPosition(open_servo_closed);
-        }
-
         // Get current motor speed in revolutions per minute (RPM)
         double wheel_speed_deg_p_sec = flywheel.getVelocity();
         double wheel_rpm = (wheel_speed_deg_p_sec / 28) * 60;
 
         // Tell it what speed we want it to go
-        desired_speed_rpm += -gamepad2.left_stick_y * 10;
+        desired_speed_rpm += -gamepad1.left_stick_y * 10;
 
         if (desired_speed_rpm > 4100)
         {
@@ -180,13 +101,6 @@ public class OurTeleop extends OpMode{
         }
         else if (desired_speed_rpm < 0)
         {
-            desired_speed_rpm = 0;
-        }
-
-        if (gamepad2.rightBumperWasPressed()){
-            desired_speed_rpm = 4000;
-        }
-        if (gamepad2.leftBumperWasPressed()){
             desired_speed_rpm = 0;
         }
 
@@ -199,10 +113,10 @@ public class OurTeleop extends OpMode{
 
         flywheel.setPower(motor_power + extra_power);
 
-
-
-
-
+        telemetry.addData("Target Speed", desired_speed_rpm);
+        telemetry.addData("Current Speed", wheel_rpm);
+        telemetry.addData("Motor Power", flywheel.getPower());
+        telemetry.update();
     }
 
     /*
