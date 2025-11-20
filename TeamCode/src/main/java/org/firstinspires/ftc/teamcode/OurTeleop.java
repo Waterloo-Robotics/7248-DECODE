@@ -78,6 +78,7 @@ public class OurTeleop extends OpMode{
         flywheel = hardwareMap.get(DcMotorEx.class, "shooter");
         intake_servo_right = hardwareMap.get(Servo.class,"intake_servo_r");
         intake_servo_left  = hardwareMap.get(Servo.class,"intake_servo_l");
+        servo_stoper  = hardwareMap.get(Servo.class,"stoper servo");
 
 
                         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -119,7 +120,7 @@ public class OurTeleop extends OpMode{
 
         double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
         double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
-        double rx = - gamepad1.right_stick_x;
+        double rx = - gamepad1.right_stick_x * 1;
 
         // Denominator is the largest motor power (absolute value) or 1
         // This ensures all the powers maintain the same ratio,
@@ -130,10 +131,10 @@ public class OurTeleop extends OpMode{
         double frontRightPower = (y - x - rx) / denominator;
         double backRightPower = (y + x - rx) / denominator;
 
-        frontLeftMotor.setPower(frontLeftPower);
-        backLeftMotor.setPower(backLeftPower);
-        frontRightMotor.setPower(frontRightPower);
-        backRightMotor.setPower(backRightPower);
+        setSafePower(frontLeftMotor, frontLeftPower);
+        setSafePower(backLeftMotor, backLeftPower);
+        setSafePower(frontRightMotor, frontRightPower);
+        setSafePower(backRightMotor, backRightPower);
 
 
 
@@ -144,29 +145,45 @@ public class OurTeleop extends OpMode{
         if (gamepad2.bWasPressed()) {
             intake.setPower(0);
         }
-
-        double intake_servo_left_start = 0.5;
-        double intake_servo_left_stop = 0.25;
-
-        if (gamepad2.leftBumperWasPressed() )
-        {
-            intake_servo_left.setPosition(intake_servo_left_start);
+        if (gamepad2.yWasPressed()) {
+            intake.setPower(-1);
         }
-        if (gamepad2.rightBumperWasPressed() )
+
+        if (gamepad2.dpadRightWasPressed()) {
+            servo_stoper.setPosition(0.45);
+        }
+        if (gamepad2.dpadLeftWasPressed())
         {
+            servo_stoper.setPosition(0.35);}
+
+
+        double intake_servo_left_forward = 0.1;
+        double intake_servo_left_stop = 0.5;
+        double intake_servo_left_reverse = 0.9;
+
+        if (gamepad2.left_bumper) {
+            intake_servo_left.setPosition(intake_servo_left_forward);
+        }
+        else if (gamepad2.left_trigger > 0.1) {
+            intake_servo_left.setPosition(intake_servo_left_reverse);
+        } else {
             intake_servo_left.setPosition(intake_servo_left_stop);
         }
-        double intake_servo_right_start = 0.5;
-        double intake_servo_right_stop = 0.25;
 
-        if (gamepad2.right_trigger >.2 )
-        {
-            intake_servo_right.setPosition(intake_servo_right_start);
+        double intake_servo_right_forward = 0.9;
+        double intake_servo_right_stop = 0.5;
+        double intake_servo_right_reverse = 0.1;
+
+        if (gamepad2.right_bumper) {
+            intake_servo_right.setPosition(intake_servo_right_forward);
         }
-        if (gamepad2.left_trigger >.2 )
-        {
+        else if (gamepad2.right_trigger > 0.1) {
+            intake_servo_right.setPosition(intake_servo_right_reverse);
+        }
+        else {
             intake_servo_right.setPosition(intake_servo_right_stop);
         }
+
 
         // Get current motor speed in revolutions per minute (RPM)
         double wheel_speed_deg_p_sec = flywheel.getVelocity();
@@ -175,24 +192,24 @@ public class OurTeleop extends OpMode{
         // Tell it what speed we want it to go
         desired_speed_rpm += -gamepad2.left_stick_y * 10;
 
-        if (desired_speed_rpm > 3000)
+        if (desired_speed_rpm > 2500)
         {
-            desired_speed_rpm = 3000;
+            desired_speed_rpm = 2500;
         }
         else if (desired_speed_rpm < 0)
         {
             desired_speed_rpm = 0;
         }
 
-        if (gamepad2.rightBumperWasPressed()){
-            desired_speed_rpm = 3000;
+        if (gamepad2.leftStickButtonWasPressed()){
+            desired_speed_rpm = 2500;
         }
-        if (gamepad2.leftBumperWasPressed()){
+        if (gamepad2.rightStickButtonWasPressed()){
             desired_speed_rpm = 0;
         }
 
         // Convert the desired speed to a motor power
-        double motor_power = (desired_speed_rpm) / 3000;
+        double motor_power = (desired_speed_rpm) / 2500;
 
         // How far away are we from our desired speed
         double error = desired_speed_rpm - wheel_rpm;
@@ -211,5 +228,14 @@ public class OurTeleop extends OpMode{
      */
     @Override
     public void stop() {
+    }
+
+    void setSafePower(DcMotor motor, double targetPower) {
+        final double SLEW_RATE = 0.2;
+        double currentPower = motor.getPower();
+        double desiredChange = targetPower - currentPower;
+        double limitedChange = Math.max(-SLEW_RATE, Math.min(desiredChange, SLEW_RATE));
+        motor.setPower(currentPower += limitedChange);
+
     }
 }
