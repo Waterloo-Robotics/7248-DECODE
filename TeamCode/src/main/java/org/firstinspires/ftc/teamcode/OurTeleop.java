@@ -61,6 +61,7 @@ public class OurTeleop extends OpMode{
     public Servo intake_servo_right = null;
     public Servo intake_servo_left = null;
 
+    public Servo servo_stoper = null;
 
     double desired_speed_rpm;
 
@@ -151,10 +152,12 @@ public class OurTeleop extends OpMode{
 
         if (gamepad2.dpadRightWasPressed()) {
             servo_stoper.setPosition(0.45);
+            servo_stoper.setPosition(0.4);
         }
         if (gamepad2.dpadLeftWasPressed())
         {
             servo_stoper.setPosition(0.35);}
+            servo_stoper.setPosition(0.275);}
 
 
         double intake_servo_left_forward = 0.1;
