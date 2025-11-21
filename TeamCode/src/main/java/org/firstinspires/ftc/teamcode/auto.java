@@ -14,7 +14,7 @@ public class auto extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     static final double FORWARD_POWER = 0.5;
-    static final long DRIVE_TIME_MS = 3000;
+    static final long DRIVE_TIME_MS = 2800;
 
 
 
