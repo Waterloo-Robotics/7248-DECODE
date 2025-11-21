@@ -149,6 +149,8 @@ public class OurTeleop extends OpMode{
             intake.setPower(-1);
         }
 
+        double stop_servo_open = 0.5;
+        double stop_servo_closed = 0.25;
 
         if (gamepad2.dpadRightWasPressed()) {
             servo_stoper.setPosition(0.4);
@@ -184,7 +186,6 @@ public class OurTeleop extends OpMode{
         else {
             intake_servo_right.setPosition(intake_servo_right_stop);
         }
-
 
         // Get current motor speed in revolutions per minute (RPM)
         double wheel_speed_deg_p_sec = flywheel.getVelocity();

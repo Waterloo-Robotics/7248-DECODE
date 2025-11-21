@@ -13,7 +13,7 @@ public class shooterprototypeTeleop extends OpMode {
 
     @Override
     public void init() {
-        motor = hardwareMap.get(DcMotor.class, "motor");
+        motor = hardwareMap.get(DcMotor.class, "flywheel");
     }
 
     @Override
