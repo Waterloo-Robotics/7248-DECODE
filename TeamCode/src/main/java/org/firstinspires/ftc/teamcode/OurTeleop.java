@@ -60,7 +60,6 @@ public class OurTeleop extends OpMode{
     public DcMotorEx flywheel = null;
     public Servo intake_servo_right = null;
     public Servo intake_servo_left = null;
-
     public Servo servo_stoper = null;
 
     double desired_speed_rpm;
@@ -150,13 +149,12 @@ public class OurTeleop extends OpMode{
             intake.setPower(-1);
         }
 
+
         if (gamepad2.dpadRightWasPressed()) {
-            servo_stoper.setPosition(0.45);
             servo_stoper.setPosition(0.4);
         }
         if (gamepad2.dpadLeftWasPressed())
         {
-            servo_stoper.setPosition(0.35);}
             servo_stoper.setPosition(0.275);}
 
 
@@ -195,9 +193,9 @@ public class OurTeleop extends OpMode{
         // Tell it what speed we want it to go
         desired_speed_rpm += -gamepad2.left_stick_y * 10;
 
-        if (desired_speed_rpm > 2500)
+        if (desired_speed_rpm > 2400)
         {
-            desired_speed_rpm = 2500;
+            desired_speed_rpm = 2400;
         }
         else if (desired_speed_rpm < 0)
         {
@@ -205,14 +203,14 @@ public class OurTeleop extends OpMode{
         }
 
         if (gamepad2.leftStickButtonWasPressed()){
-            desired_speed_rpm = 2500;
+            desired_speed_rpm = 2400;
         }
         if (gamepad2.rightStickButtonWasPressed()){
             desired_speed_rpm = 0;
         }
 
         // Convert the desired speed to a motor power
-        double motor_power = (desired_speed_rpm) / 2500;
+        double motor_power = (desired_speed_rpm) / 2400;
 
         // How far away are we from our desired speed
         double error = desired_speed_rpm - wheel_rpm;
