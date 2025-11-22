@@ -119,8 +119,8 @@ public class OurTeleop extends OpMode{
     public void loop() {
 
         double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
-        double x = gamepad1.left_stick_x * 1; // Counteract imperfect strafing
-        double rx = - gamepad1.right_stick_x * .5;
+        double x = gamepad1.left_stick_x * .9; // Counteract imperfect strafing
+        double rx = - gamepad1.right_stick_x * .25;
 
         // Denominator is the largest motor power (absolute value) or 1
         // This ensures all the powers maintain the same ratio,
@@ -160,9 +160,9 @@ public class OurTeleop extends OpMode{
             servo_stoper.setPosition(0.275);}
 
 
-        double intake_servo_left_forward = 0.1;
+        double intake_servo_left_forward = 0.2;
         double intake_servo_left_stop = 0.5;
-        double intake_servo_left_reverse = 0.9;
+        double intake_servo_left_reverse = 0.8;
 
         if (gamepad2.left_bumper) {
             intake_servo_left.setPosition(intake_servo_left_forward);
@@ -173,9 +173,9 @@ public class OurTeleop extends OpMode{
             intake_servo_left.setPosition(intake_servo_left_stop);
         }
 
-        double intake_servo_right_forward = 0.9;
+        double intake_servo_right_forward = 0.8;
         double intake_servo_right_stop = 0.5;
-        double intake_servo_right_reverse = 0.1;
+        double intake_servo_right_reverse = 0.2;
 
         if (gamepad2.right_bumper) {
             intake_servo_right.setPosition(intake_servo_right_forward);
@@ -188,15 +188,16 @@ public class OurTeleop extends OpMode{
         }
 
         // Get current motor speed in revolutions per minute (RPM)
+//        double wheel_speed_deg_p_sec = flywheel.getVelocity();
         double wheel_speed_deg_p_sec = flywheel.getVelocity();
-        double wheel_rpm = (wheel_speed_deg_p_sec / 28) * 50;
+        double wheel_rpm = (wheel_speed_deg_p_sec / 28) * 60;
 
         // Tell it what speed we want it to go
         desired_speed_rpm += -gamepad2.left_stick_y ;
 
-        if (desired_speed_rpm > 2500)
+        if (desired_speed_rpm > 3100)
         {
-            desired_speed_rpm = 2500;
+            desired_speed_rpm = 3100;
         }
         else if (desired_speed_rpm < 0)
         {
@@ -204,21 +205,26 @@ public class OurTeleop extends OpMode{
         }
 
         if (gamepad2.leftStickButtonWasPressed()){
-            desired_speed_rpm = 2500;
+            desired_speed_rpm = 3100;
         }
         if (gamepad2.rightStickButtonWasPressed()){
             desired_speed_rpm = 0;
         }
 
         // Convert the desired speed to a motor power
-        double motor_power = (desired_speed_rpm) / 2500;
+        double motor_power = (desired_speed_rpm) / 4100; //assume 4100 max speed of the motor due to system load.
 
         // How far away are we from our desired speed
         double error = desired_speed_rpm - wheel_rpm;
-        double extra_power = error * 0.0002;
+//        double extra_power = error * 0.0002;
+        double extra_power = 0; //set to 0 for now until we complete troubleshooting wheel_rpm issue
 
         flywheel.setPower(motor_power + extra_power);
 
+        /* ---------------- GENERAL TELEMETRY ---------------- */
+        telemetry.addData("Desired Speed", desired_speed_rpm);
+        telemetry.addData("Speed Error", error);
+        telemetry.addData("Wheel velocity tick", wheel_speed_deg_p_sec);
 
 
 
