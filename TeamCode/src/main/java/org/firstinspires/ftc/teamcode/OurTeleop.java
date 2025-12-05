@@ -29,10 +29,13 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import android.graphics.Color;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.vision.opencv.PredominantColorProcessor;
@@ -65,6 +68,9 @@ public class OurTeleop extends OpMode{
     public Servo intake_servo_right = null;
     public Servo intake_servo_left = null;
     public Servo servo_stoper = null;
+    String savedColorMatch = null;
+
+
 
     double desired_speed_rpm;
 
