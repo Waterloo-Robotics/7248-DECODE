@@ -29,11 +29,18 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import android.graphics.Color;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.vision.opencv.PredominantColorProcessor;
+
+import java.util.Objects;
 
 /*
  * This OpMode executes a Tank Drive control TeleOp a direct drive robot
@@ -61,6 +68,9 @@ public class OurTeleop extends OpMode{
     public Servo intake_servo_right = null;
     public Servo intake_servo_left = null;
     public Servo servo_stoper = null;
+    String savedColorMatch = null;
+
+
 
     double desired_speed_rpm;
 
@@ -137,6 +147,20 @@ public class OurTeleop extends OpMode{
         setSafePower(backRightMotor, backRightPower);
 
 
+        PredominantColorProcessor.Result result = null;
+        if (result.closestSwatch == PredominantColorProcessor.Swatch.RED) {{
+            intake.setPower(0);
+        }
+            savedColorMatch = "RED";
+            // your code here: optional to exit the vision loop based on your criteria
+            // your code here: robot actions if the ROI was RED
+            Color.red(result.rgb);
+
+
+        }
+
+
+// After exiting the vision loop...
 
         if (gamepad2.aWasPressed())
         {
