@@ -141,6 +141,20 @@ public class OurTeleop extends OpMode{
         setSafePower(backRightMotor, backRightPower);
 
 
+        PredominantColorProcessor.Result result = null;
+        if (result.closestSwatch == PredominantColorProcessor.Swatch.RED) {{
+            intake.setPower(0);
+        }
+            savedColorMatch = "RED";
+            // your code here: optional to exit the vision loop based on your criteria
+            // your code here: robot actions if the ROI was RED
+            Color.red(result.rgb);
+
+
+        }
+
+
+// After exiting the vision loop...
 
         if (gamepad2.aWasPressed())
         {
