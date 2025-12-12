@@ -57,13 +57,12 @@ import java.util.Objects;
 
 @TeleOp(name="Sea of Electrons", group="Robot")
 public class OurTeleop extends OpMode{
-
     /* Declare OpMode members. */
     public DcMotor frontLeftMotor = null;
     public DcMotor frontRightMotor = null;
     public DcMotor backLeftMotor = null;
     public DcMotor backRightMotor = null;
-    public DcMotor intake = null;
+    public Servo intake = null;
     public DcMotorEx flywheel = null;
     public Servo intake_servo_right = null;
     public Servo intake_servo_left = null;
@@ -84,7 +83,7 @@ public class OurTeleop extends OpMode{
         frontRightMotor = hardwareMap.get(DcMotor.class, "right_drive");
         backLeftMotor = hardwareMap.get(DcMotor.class, "left_2drive");
         backRightMotor = hardwareMap.get(DcMotor.class, "right_2drive");
-        intake = hardwareMap.get(DcMotor.class, "intake");
+        intake = hardwareMap.get(Servo.class, "intake");
         flywheel = hardwareMap.get(DcMotorEx.class, "shooter");
         intake_servo_right = hardwareMap.get(Servo.class,"intake_servo_r");
         intake_servo_left  = hardwareMap.get(Servo.class,"intake_servo_l");
@@ -149,7 +148,7 @@ public class OurTeleop extends OpMode{
 
         PredominantColorProcessor.Result result = null;
         if (result.closestSwatch == PredominantColorProcessor.Swatch.RED) {{
-            intake.setPower(0);
+            intake.setPosition(.5);
         }
             savedColorMatch = "RED";
             // your code here: optional to exit the vision loop based on your criteria
@@ -161,16 +160,18 @@ public class OurTeleop extends OpMode{
 
 
 // After exiting the vision loop...
-
+        double intake_forward = 0.2;
+        double intake_stop = 0.5;
+        double intake_reverse = 0.8;
         if (gamepad2.aWasPressed())
         {
-            intake.setPower(1);
+            intake.setPosition(intake_forward);
         }
         if (gamepad2.bWasPressed()) {
-            intake.setPower(0);
+            intake.setPosition(intake_stop);
         }
         if (gamepad2.yWasPressed()) {
-            intake.setPower(-1);
+            intake.setPosition(intake_reverse);
         }
 
         double stop_servo_open = 0.5;
