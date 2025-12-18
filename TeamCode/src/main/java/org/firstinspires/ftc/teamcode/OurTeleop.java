@@ -64,9 +64,9 @@ public class OurTeleop extends OpMode{
     public DcMotor backRightMotor = null;
     public Servo intake = null;
     public DcMotorEx flywheel = null;
-    public Servo intake_servo_right = null;
-    public Servo intake_servo_left = null;
-    public Servo servo_stoper = null;
+    public Servo transferservo = null;
+    public DcMotor transfermotor = null;
+
     String savedColorMatch = null;
 
 
@@ -85,9 +85,6 @@ public class OurTeleop extends OpMode{
         backRightMotor = hardwareMap.get(DcMotor.class, "right_2drive");
         intake = hardwareMap.get(Servo.class, "intake");
         flywheel = hardwareMap.get(DcMotorEx.class, "shooter");
-        intake_servo_right = hardwareMap.get(Servo.class,"intake_servo_r");
-        intake_servo_left  = hardwareMap.get(Servo.class,"intake_servo_l");
-        servo_stoper  = hardwareMap.get(Servo.class,"stoper servo");
 
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -160,57 +157,19 @@ public class OurTeleop extends OpMode{
 
 
 // After exiting the vision loop...
-        double intake_forward = 0.2;
-        double intake_stop = 0.5;
-        double intake_reverse = 0.8;
+//        servo values: forward=1 stop=0 reverse=-1
         if (gamepad2.aWasPressed())
         {
-            intake.setPosition(intake_forward);
+            intake.setPosition(1);
         }
         if (gamepad2.bWasPressed()) {
-            intake.setPosition(intake_stop);
+            intake.setPosition(0);
         }
         if (gamepad2.yWasPressed()) {
-            intake.setPosition(intake_reverse);
+            intake.setPosition(-1);
         }
 
-        double stop_servo_open = 0.5;
-        double stop_servo_closed = 0.25;
 
-        if (gamepad2.dpadRightWasPressed()) {
-            servo_stoper.setPosition(0.4);
-        }
-        if (gamepad2.dpadLeftWasPressed())
-        {
-            servo_stoper.setPosition(0.275);}
-
-
-        double intake_servo_left_forward = 0.2;
-        double intake_servo_left_stop = 0.5;
-        double intake_servo_left_reverse = 0.8;
-
-        if (gamepad2.left_bumper) {
-            intake_servo_left.setPosition(intake_servo_left_forward);
-        }
-        else if (gamepad2.left_trigger > 0.1) {
-            intake_servo_left.setPosition(intake_servo_left_reverse);
-        } else {
-            intake_servo_left.setPosition(intake_servo_left_stop);
-        }
-
-        double intake_servo_right_forward = 0.8;
-        double intake_servo_right_stop = 0.5;
-        double intake_servo_right_reverse = 0.2;
-
-        if (gamepad2.right_bumper) {
-            intake_servo_right.setPosition(intake_servo_right_forward);
-        }
-        else if (gamepad2.right_trigger > 0.1) {
-            intake_servo_right.setPosition(intake_servo_right_reverse);
-        }
-        else {
-            intake_servo_right.setPosition(intake_servo_right_stop);
-        }
 
         // Get current motor speed in revolutions per minute (RPM)
 //        double wheel_speed_deg_p_sec = flywheel.getVelocity();
@@ -229,10 +188,10 @@ public class OurTeleop extends OpMode{
             desired_speed_rpm = 0;
         }
 
-        if (gamepad2.leftStickButtonWasPressed()){
+        if (gamepad2.leftBumperWasPressed()){
             desired_speed_rpm = 3100;
         }
-        if (gamepad2.rightStickButtonWasPressed()){
+        if (gamepad2.left_trigger >.1){
             desired_speed_rpm = 0;
         }
 

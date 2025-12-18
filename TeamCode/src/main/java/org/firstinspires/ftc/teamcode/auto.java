@@ -53,7 +53,7 @@ public class auto extends LinearOpMode {
 
 
 
-        telemetry.addData("Position X", "%f.2", 
+        telemetry.addData("Position X", "%f.2",
                 telemetry.addData("Position Y", "%f.2",
                 telemetry.addData("Position", "%f.2",
     }
