@@ -64,8 +64,8 @@ public class OurTeleop extends OpMode{
     public DcMotor backRightMotor = null;
     public Servo intake = null;
     public DcMotorEx flywheel = null;
-    public Servo transferservo = null;
-    public DcMotor transfermotor = null;
+    public Servo transfer_servo = null;
+    public DcMotor transfer_motor = null;
 
     String savedColorMatch = null;
 
@@ -85,6 +85,8 @@ public class OurTeleop extends OpMode{
         backRightMotor = hardwareMap.get(DcMotor.class, "right_2drive");
         intake = hardwareMap.get(Servo.class, "intake");
         flywheel = hardwareMap.get(DcMotorEx.class, "shooter");
+        transfer_servo = hardwareMap.get(Servo.class,"tran_servo");
+        transfer_motor = hardwareMap.get(DcMotorEx.class,"tran_motor");
 
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -143,30 +145,30 @@ public class OurTeleop extends OpMode{
         setSafePower(backRightMotor, backRightPower);
 
 
-        PredominantColorProcessor.Result result = null;
-        if (result.closestSwatch == PredominantColorProcessor.Swatch.RED) {{
-            intake.setPosition(.5);
-        }
-            savedColorMatch = "RED";
-            // your code here: optional to exit the vision loop based on your criteria
-            // your code here: robot actions if the ROI was RED
-            Color.red(result.rgb);
-
-
-        }
+//        PredominantColorProcessor.Result result = null;
+//        if (result.closestSwatch == PredominantColorProcessor.Swatch.RED) {{
+//            intake.setPosition(.5);
+//        }
+//            savedColorMatch = "RED";
+//            // your code here: optional to exit the vision loop based on your criteria
+//            // your code here: robot actions if the ROI was RED
+//            Color.red(result.rgb);
+//
+//
+//        }
 
 
 // After exiting the vision loop...
 //        servo values: forward=1 stop=0 reverse=-1
         if (gamepad2.aWasPressed())
         {
-            intake.setPosition(1);
-        }
-        if (gamepad2.bWasPressed()) {
             intake.setPosition(0);
         }
+        if (gamepad2.bWasPressed()) {
+            intake.setPosition(.5);
+        }
         if (gamepad2.yWasPressed()) {
-            intake.setPosition(-1);
+            intake.setPosition(1);
         }
 
         if (gamepad2.right_trigger >.1) {

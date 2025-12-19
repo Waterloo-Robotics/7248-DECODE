@@ -25,43 +25,20 @@ public class auto extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-    frontLeftMotor = hardwareMap.get(DcMotor.class, "FrontLeftMotor");
-    frontRightMotor = hardwareMap.get(DcMotor.class, "FrontLeftMotor");
-    backLeftMotor = hardwareMap.get(DcMotor.class, "FrontLeftMotor");
-    backRightMotor = hardwareMap.get(DcMotor.class, "FrontLeftMotor");
-    ppointdr= hardwareMap.get(GoBildaPinpointDriver.class, "ppdriver");
+        frontLeftMotor = hardwareMap.get(DcMotor.class, "FrontLeftMotor");
+        frontRightMotor = hardwareMap.get(DcMotor.class, "FrontLeftMotor");
+        backLeftMotor = hardwareMap.get(DcMotor.class, "FrontLeftMotor");
+        backRightMotor = hardwareMap.get(DcMotor.class, "FrontLeftMotor");
+        ppointdr = hardwareMap.get(GoBildaPinpointDriver.class, "ppdriver");
 
-    ppointdr.setOffsets(-175, 115, DistanceUnit.MM);
-    ppointdr.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.FORWARD);
-
-
-
-    frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-    frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
-    backLeftMotor.setDirection(DcMotor.Direction.FORWARD);
-    backRightMotor.setDirection(DcMotor.Direction.REVERSE);
+        ppointdr.setOffsets(-175, 115, DistanceUnit.MM);
+        ppointdr.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.FORWARD);
 
 
-
-    waitForStart();
-
-    while (opModeIsActive()) {
-//        backLeftMotor.setPower(FORWARD_POWER);
-//        backRightMotor.setPower(FORWARD_POWER);
-//        frontLeftMotor.setPower(FORWARD_POWER);
-//        frontRightMotor.setPower(FORWARD_POWER);
+        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
+        backLeftMotor.setDirection(DcMotor.Direction.FORWARD);
+        backRightMotor.setDirection(DcMotor.Direction.REVERSE);
 
 
-
-        telemetry.addData("Position X", "%f.2",
-                telemetry.addData("Position Y", "%f.2",
-                telemetry.addData("Position", "%f.2",
-    }
-        frontLeftMotor.setPower(0);
-        backLeftMotor.setPower(0);
-        frontRightMotor.setPower(0);
-        backRightMotor.setPower(0);
-}
-
-
-}
+    }}
