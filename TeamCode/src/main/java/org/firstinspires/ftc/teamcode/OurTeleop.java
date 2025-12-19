@@ -169,6 +169,31 @@ public class OurTeleop extends OpMode{
             intake.setPosition(-1);
         }
 
+        if (gamepad2.right_trigger >.1) {
+            transfer_servo.setPosition(0);
+        }
+        else if (gamepad2.left_trigger >.1) {
+            transfer_servo.setPosition(1);
+        }
+
+        else {transfer_servo.setPosition(.5);
+            }
+        if (gamepad2.right_bumper) {
+            transfer_motor.setPower(-1);
+        }
+        else if (gamepad2.left_bumper) {
+            transfer_motor.setPower(1);
+        }
+
+        else {transfer_motor.setPower(0);
+        }
+
+
+
+
+
+
+
 
 
         // Get current motor speed in revolutions per minute (RPM)
