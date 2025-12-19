@@ -66,6 +66,7 @@ public class OurTeleop extends OpMode{
     public DcMotorEx flywheel = null;
     public Servo transfer_servo = null;
     public DcMotor transfer_motor = null;
+    private boolean flywheelon;
 
     String savedColorMatch = null;
 
@@ -167,7 +168,7 @@ public class OurTeleop extends OpMode{
         if (gamepad2.bWasPressed()) {
             intake.setPosition(.5);
         }
-        if (gamepad2.yWasPressed()) {
+       if (gamepad2.yWasPressed()) {
             intake.setPosition(1);
         }
 
@@ -175,16 +176,16 @@ public class OurTeleop extends OpMode{
             transfer_servo.setPosition(0);
         }
         else if (gamepad2.left_trigger >.1) {
-            transfer_servo.setPosition(1);
+            transfer_motor.setPower(1);
         }
 
         else {transfer_servo.setPosition(.5);
             }
         if (gamepad2.right_bumper) {
-            transfer_motor.setPower(-1);
+            transfer_servo.setPosition(1);
         }
         else if (gamepad2.left_bumper) {
-            transfer_motor.setPower(1);
+            transfer_motor.setPower(-1);
         }
 
         else {transfer_motor.setPower(0);
@@ -204,23 +205,19 @@ public class OurTeleop extends OpMode{
         double wheel_rpm = (wheel_speed_deg_p_sec / 28) * 60;
 
         // Tell it what speed we want it to go
-        desired_speed_rpm += -gamepad2.left_stick_y ;
+        // desired_speed_rpm += -gamepad2.left_stick_y ;
 
-        if (desired_speed_rpm > 3100)
-        {
+
+        if(flywheelon){
             desired_speed_rpm = 3100;
         }
-        else if (desired_speed_rpm < 0)
-        {
+        if (gamepad2.leftStickButtonWasPressed()) {
+            flywheelon = !flywheelon;
+        }
+        else {
             desired_speed_rpm = 0;
         }
 
-        if (gamepad2.leftBumperWasPressed()){
-            desired_speed_rpm = 3100;
-        }
-        if (gamepad2.left_trigger >.1){
-            desired_speed_rpm = 0;
-        }
 
         // Convert the desired speed to a motor power
         double motor_power = (desired_speed_rpm) / 4100; //assume 4100 max speed of the motor due to system load.
@@ -242,12 +239,7 @@ public class OurTeleop extends OpMode{
 
     }
 
-    /*
-     * Code to run ONCE after the driver hits STOP
-     */
-    @Override
-    public void stop() {
-    }
+
 
     void setSafePower(DcMotor motor, double targetPower) {
         final double SLEW_RATE = 0.2;
