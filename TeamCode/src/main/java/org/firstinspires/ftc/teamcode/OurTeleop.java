@@ -93,10 +93,10 @@ public class OurTeleop extends OpMode{
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left and right sticks forward MUST make robot go forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
-        frontLeftMotor.setDirection(DcMotor.Direction.FORWARD);
-        frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
-        backLeftMotor.setDirection(DcMotor.Direction.FORWARD);
-        backRightMotor.setDirection(DcMotor.Direction.REVERSE);
+        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
+        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotor.Direction.FORWARD);
 
         // If there are encoders connected, switch to RUN_USING_ENCODER mode for greater accuracy
         // leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -127,23 +127,47 @@ public class OurTeleop extends OpMode{
     @Override
     public void loop() {
 
-        double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
-        double x = gamepad1.left_stick_x * .8; // Counteract imperfect strafing
-        double rx = - gamepad1.right_stick_x * .25;
+        double y = -gamepad1.left_stick_y;   // Forward/backward
+        double x = gamepad1.left_stick_x;    // Strafe left/right
+        double turn = gamepad1.right_stick_x; // Rotate in place
+
+        // Calculate motor powers for mecanum drive
+        double frontLeftPower = y + x + turn;
+        double frontRightPower = y - x - turn;
+        double backLeftPower = y - x + turn;
+        double backRightPower = y + x - turn;
+
+        // Normalize motor powers to stay within [-1.0, 1.0]
+        double max = Math.max(
+                Math.max(Math.abs(frontLeftPower), Math.abs(frontRightPower)),
+                Math.max(Math.abs(backLeftPower), Math.abs(backRightPower))
+        );
+        if (max > 1.0) {
+            frontLeftPower /= max;
+            frontRightPower /= max;
+            backLeftPower /= max;
+            backRightPower /= max;
+        }
+
+        // Set powers to motors
+        frontLeftMotor.setPower(frontLeftPower);
+        frontRightMotor.setPower(frontRightPower);
+        backLeftMotor.setPower(backLeftPower);
+        backRightMotor.setPower(backRightPower);
 
         // Denominator is the largest motor power (absolute value) or 1
         // This ensures all the powers maintain the same ratio,
         // but only if at least one is out of the range [-1, 1]
-        double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), .1);
+     /*   double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), .1);
         double frontLeftPower = (y + x + rx) / denominator;
         double backLeftPower = (y - x + rx) / denominator;
         double frontRightPower = (y - x - rx) / denominator;
-        double backRightPower = (y + x - rx) / denominator;
+        double backRightPower = (y + x - rx) / denominator; */
 
-        setSafePower(frontLeftMotor, frontLeftPower);
+        /* setSafePower(frontLeftMotor, frontLeftPower);
         setSafePower(backLeftMotor, backLeftPower);
         setSafePower(frontRightMotor, frontRightPower);
-        setSafePower(backRightMotor, backRightPower);
+        setSafePower(backRightMotor, backRightPower); */
 
 
 //        PredominantColorProcessor.Result result = null;
@@ -171,50 +195,40 @@ public class OurTeleop extends OpMode{
        if (gamepad2.yWasPressed()) {
             intake.setPosition(1);
         }
-
+        if (gamepad2.right_bumper) {
+            transfer_servo.setPosition(1);
+        }
         if (gamepad2.right_trigger >.1) {
             transfer_servo.setPosition(0);
         }
-        else if (gamepad2.left_trigger >.1) {
-            transfer_motor.setPower(1);
+        else if (gamepad2.right_bumper) {
+            transfer_servo.setPosition(1);
         }
 
         else {transfer_servo.setPosition(.5);
             }
-        if (gamepad2.right_bumper) {
-            transfer_servo.setPosition(1);
-        }
-        else if (gamepad2.left_bumper) {
+        if (gamepad2.left_bumper) {
             transfer_motor.setPower(-1);
         }
-
+        else if (gamepad2.left_trigger >.1) {
+            transfer_motor.setPower(1);
+        }
         else {transfer_motor.setPower(0);
         }
 
 
 
-
-
-
-
-
-
         // Get current motor speed in revolutions per minute (RPM)
-//        double wheel_speed_deg_p_sec = flywheel.getVelocity();
-        double wheel_speed_deg_p_sec = flywheel.getVelocity();
+        double wheel_speed_deg_p_sec = -flywheel.getVelocity();
         double wheel_rpm = (wheel_speed_deg_p_sec / 28) * 60;
 
         // Tell it what speed we want it to go
-        // desired_speed_rpm += -gamepad2.left_stick_y ;
+         desired_speed_rpm += -gamepad2.left_stick_y ;
 
-
-        if(flywheelon){
-            desired_speed_rpm = 3100;
+        if (gamepad2.leftStickButtonWasPressed() && desired_speed_rpm < 1000) {
+            desired_speed_rpm = 3050;
         }
-        if (gamepad2.leftStickButtonWasPressed()) {
-            flywheelon = !flywheelon;
-        }
-        else {
+        else if (gamepad2.rightStickButtonWasPressed()) {
             desired_speed_rpm = 0;
         }
 
@@ -224,8 +238,7 @@ public class OurTeleop extends OpMode{
 
         // How far away are we from our desired speed
         double error = desired_speed_rpm - wheel_rpm;
-//        double extra_power = error * 0.0002;
-        double extra_power = 0; //set to 0 for now until we complete troubleshooting wheel_rpm issue
+        double extra_power = error * 0.0002;
 
         flywheel.setPower(motor_power + extra_power);
 
