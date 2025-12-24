@@ -62,10 +62,10 @@ public class OurTeleop extends OpMode{
     public DcMotor frontRightMotor = null;
     public DcMotor backLeftMotor = null;
     public DcMotor backRightMotor = null;
-    public Servo intake = null;
+    public DcMotor intake = null;
     public DcMotorEx flywheel = null;
-    public Servo transfer_servo = null;
-    public DcMotor transfer_motor = null;
+    public DcMotor transfer_Motor1 = null;
+    public DcMotor transfer_Motor2 = null;
 
     String savedColorMatch = null;
 
@@ -83,10 +83,10 @@ public class OurTeleop extends OpMode{
         frontRightMotor = hardwareMap.get(DcMotor.class, "right_drive");
         backLeftMotor = hardwareMap.get(DcMotor.class, "left_2drive");
         backRightMotor = hardwareMap.get(DcMotor.class, "right_2drive");
-        intake = hardwareMap.get(Servo.class, "intake");
+        intake = hardwareMap.get(DcMotor.class, "intake");
         flywheel = hardwareMap.get(DcMotorEx.class, "shooter");
-        transfer_servo = hardwareMap.get(Servo.class,"tran_servo");
-        transfer_motor = hardwareMap.get(DcMotorEx.class,"tran_motor");
+        transfer_Motor1 = hardwareMap.get(DcMotor.class,"tran_DcMotor1");
+        transfer_Motor2 = hardwareMap.get(DcMotor.class,"tran_DcMotor2");
 
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -162,36 +162,45 @@ public class OurTeleop extends OpMode{
 //        servo values: forward=1 stop=0 reverse=-1
         if (gamepad2.aWasPressed())
         {
-            intake.setPosition(0);
+            intake.setPower(.5);
         }
         if (gamepad2.bWasPressed()) {
-            intake.setPosition(.5);
+            intake.setPower(0);
         }
         if (gamepad2.yWasPressed()) {
-            intake.setPosition(1);
+            intake.setPower(-.5);
         }
 
         if (gamepad2.right_trigger >.1) {
-            transfer_servo.setPosition(0);
+            transfer_Motor1.setPower(-1);
         }
         else if (gamepad2.right_bumper) {
-            transfer_servo.setPosition(1);
+            transfer_Motor1.setPower(1);
         }
 
-        else {transfer_servo.setPosition(.5);
+        else {transfer_Motor1.setPower(0);
             }
         if (gamepad2.left_trigger >.2 ) {
-            transfer_motor.setPower(1);
+            transfer_Motor2.setPower(1);
         }
         else if (gamepad2.left_bumper) {
-            transfer_motor.setPower(-1);
+            transfer_Motor2.setPower(-1);
         }
 
-        else {transfer_motor.setPower(0);
+        else {transfer_Motor2.setPower(0);
         }
 
+        // sample of servo
+        /*if (gamepad2.right_trigger >.1) {
+            transfer_Motor1.setPosition(0);
+        }
+        else if (gamepad2.right_bumper) {
+            transfer_Motor1.setPosition(1);
+        }
 
-
+        else {transfer_Motor1.setPosition(.5);
+        }
+        */
 
 
 
