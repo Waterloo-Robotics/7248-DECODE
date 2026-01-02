@@ -18,6 +18,7 @@ public class auto extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 
+    // we use a varible so we can change the power easily later on
     static final double FORWARD_POWER = 0.5;
     static final long DRIVE_TIME_MS = 2800;
 
@@ -40,5 +41,14 @@ public class auto extends LinearOpMode {
         backLeftMotor.setDirection(DcMotor.Direction.FORWARD);
         backRightMotor.setDirection(DcMotor.Direction.REVERSE);
 
+        if (opModeIsActive()) {
+            // SLEEP = Time to run command before moving to the next, in miliseconds
+            sleep(750);
+            frontLeftMotor.setPower(FORWARD_POWER);
+            frontRightMotor.setPower(FORWARD_POWER);
+            backLeftMotor.setPower(FORWARD_POWER);
+            backRightMotor.setPower(FORWARD_POWER);
+            sleep(900);
+        }
 
     }}
