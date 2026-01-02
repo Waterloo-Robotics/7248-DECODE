@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@Autonomous(name="Auto")
+@Autonomous(name="Leave Auto")
 public class auto extends LinearOpMode {
     public DcMotor frontLeftMotor = null;
     public DcMotor frontRightMotor = null;
