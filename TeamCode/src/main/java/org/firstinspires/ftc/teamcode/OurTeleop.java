@@ -215,9 +215,9 @@ public class OurTeleop extends OpMode{
         // Tell it what speed we want it to go
         //desired_speed_rpm += -gamepad2.left_stick_y ;
 
-        if (desired_speed_rpm > 2800)
+        if (desired_speed_rpm > 2500)
         {
-            desired_speed_rpm = 2800;
+            desired_speed_rpm = 2500;
         }
         else if (desired_speed_rpm < 0)
         {
@@ -225,7 +225,7 @@ public class OurTeleop extends OpMode{
         }
 
         if (gamepad2.leftStickButtonWasPressed()){
-            desired_speed_rpm = 2800;
+            desired_speed_rpm = 2500;
         }
         else if (gamepad2.rightStickButtonWasPressed()){
             desired_speed_rpm = 0;
