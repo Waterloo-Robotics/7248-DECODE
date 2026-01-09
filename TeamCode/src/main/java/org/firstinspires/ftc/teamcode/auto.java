@@ -14,6 +14,10 @@ public class auto extends LinearOpMode {
     public DcMotor right_drive = null;
     public DcMotor left_2drive = null;
     public DcMotor right_2drive = null;
+    public DcMotor flywheel = null;
+    public DcMotor intake = null;
+    public DcMotor tran_DcMotor1 = null;
+    public DcMotor tran_DcMotor2 = null;
     public GoBildaPinpointDriver ppointdr= null;
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -31,6 +35,10 @@ public class auto extends LinearOpMode {
         right_drive = hardwareMap.get(DcMotor.class, "right_drive");
         left_2drive = hardwareMap.get(DcMotor.class, "left_2drive");
         right_2drive = hardwareMap.get(DcMotor.class, "right_2drive");
+        flywheel = hardwareMap.get(DcMotor.class, "shooter");
+        intake = hardwareMap.get(DcMotor.class, "intake");
+        tran_DcMotor1 = hardwareMap.get(DcMotor.class, "tran_DcMotor1");
+        tran_DcMotor2 = hardwareMap.get(DcMotor.class, "tran_DcMotor2");
         left_drive.setDirection(DcMotor.Direction.FORWARD);
         right_drive.setDirection(DcMotor.Direction.REVERSE);
         left_2drive.setDirection(DcMotor.Direction.FORWARD);
@@ -41,12 +49,23 @@ public class auto extends LinearOpMode {
         if (opModeIsActive()) {
 
             // SLEEP = Time to run command before moving to the next, in miliseconds
-            sleep(750);
+            /*sleep(750);
             left_drive.setPower(-0.5);
             right_drive.setPower(-0.5);
             left_2drive.setPower(-0.5);
-            right_2drive.setPower(-0.5);
+            right_2drive.setPower(-0.5);*/
             sleep(800);
+            intake.setPower (1);
+           tran_DcMotor1.setPower(-1);
+              tran_DcMotor2.setPower(1);
+
+//            flywheel.setPower(1);
+            sleep(2000);
+            intake.setPower (0);
+            tran_DcMotor1.setPower (0);
+              tran_DcMotor1.setPower(0);
+
+//            flywheel.setPower(0);
         }
 
     }}
