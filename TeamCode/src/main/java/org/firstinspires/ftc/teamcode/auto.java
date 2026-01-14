@@ -62,7 +62,7 @@ public class auto extends LinearOpMode {
             flywheel.setPower(.6);
             sleep(2000);
             tran_DcMotor2.setPower(1);
-            sleep(1000);
+            sleep(5000);
             tran_DcMotor1.setPower(-1);
             sleep(1000);
             tran_DcMotor1.setPower(0);
