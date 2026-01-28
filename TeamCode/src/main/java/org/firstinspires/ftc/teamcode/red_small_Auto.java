@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name = "redAuto", group = "Auto")
-public class redAuto extends LinearOpMode {
+@Autonomous(name = "red small Auto", group = "Auto")
+public class red_small_Auto extends LinearOpMode {
 
     private DcMotor backLeft, backRight, frontLeft, frontRight;
     private DcMotorEx flywheel;

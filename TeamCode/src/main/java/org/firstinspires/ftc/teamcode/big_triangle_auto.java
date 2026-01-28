@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@Autonomous(name="Leave Auto")
-public class auto extends LinearOpMode {
+@Autonomous(name="big triangle Auto")
+public class big_triangle_auto extends LinearOpMode {
     public DcMotor left_drive = null;
     public DcMotor right_drive = null;
     public DcMotor left_2drive = null;
@@ -62,12 +62,15 @@ public class auto extends LinearOpMode {
             flywheel.setPower(.6);
             sleep(2000);
             tran_DcMotor2.setPower(1);
-            sleep(5000);
+            sleep(2000);
             tran_DcMotor1.setPower(-1);
+            sleep(2000);
+            intake.setPower(1);
             sleep(1000);
             tran_DcMotor1.setPower(0);
             tran_DcMotor2.setPower(0);
             flywheel.setPower(0);
+            intake.setPower(0);
         }
 
     }}
