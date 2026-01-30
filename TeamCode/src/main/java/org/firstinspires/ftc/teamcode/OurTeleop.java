@@ -128,7 +128,7 @@ public class OurTeleop extends OpMode{
 
         double y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
         double x = -gamepad1.left_stick_x * .5; // Counteract imperfect strafing
-        double rx =  -gamepad1.right_stick_x * .75;
+        double rx =  -gamepad1.right_stick_x * .6;
 
         // Denominator is the largest motor power (absolute value) or 1
         // This ensures all the powers maintain the same ratio,

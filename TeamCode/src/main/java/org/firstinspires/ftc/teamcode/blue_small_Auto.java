@@ -47,7 +47,6 @@ public class blue_small_Auto extends LinearOpMode {
         if (opModeIsActive()) {
 
             // SLEEP = Time to run command before moving to the next, in miliseconds
-            sleep(750);
             left_drive.setPower(-.4);
             right_drive.setPower(-.4);
             left_2drive.setPower(-.4);
@@ -62,7 +61,42 @@ public class blue_small_Auto extends LinearOpMode {
             right_drive.setPower(0);
             left_2drive.setPower(0);
             right_2drive.setPower(0);
-
+            flywheel.setPower(.6);
+            sleep(2000);
+            tran_DcMotor2.setPower(1);
+            sleep(2000);
+            tran_DcMotor1.setPower(-1);
+            sleep(2000);
+            intake.setPower(1);
+            sleep(1000);
+            tran_DcMotor1.setPower(0);
+            tran_DcMotor2.setPower(0);
+            flywheel.setPower(0);
+            intake.setPower(0);
+            //new
+            left_drive.setPower(.3);
+            right_drive.setPower(-.3);
+            left_2drive.setPower(.3);
+            right_2drive.setPower(-.3);
+            sleep(450);
+            left_drive.setPower(.35);
+            right_drive.setPower(-.35);
+            left_2drive.setPower(-.35);
+            right_2drive.setPower(.35);
+            sleep(350);
+            tran_DcMotor2.setPower(1);
+            tran_DcMotor1.setPower(-1);
+            intake.setPower(1);
+            sleep(1000);
+            left_drive.setPower(-.3);
+            right_drive.setPower(-.3);
+            left_2drive.setPower(-.3);
+            right_2drive.setPower(-.3);
+            sleep(2300);
+            tran_DcMotor2.setPower(0);
+            tran_DcMotor1.setPower(0);
+            sleep(1000);
+            intake.setPower(0);
         }
 
     }}

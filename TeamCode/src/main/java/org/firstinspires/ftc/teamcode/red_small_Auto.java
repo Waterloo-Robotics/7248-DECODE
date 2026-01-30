@@ -1,108 +1,108 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name = "red small Auto", group = "Auto")
-public class red_small_Auto extends LinearOpMode {
+public class red_small_Auto extends LinearOpMode{
+public DcMotor left_drive = null;
+public DcMotor right_drive = null;
+public DcMotor left_2drive = null;
+public DcMotor right_2drive = null;
+public DcMotor flywheel = null;
+public DcMotor intake = null;
+public DcMotor tran_DcMotor1 = null;
+public DcMotor tran_DcMotor2 = null;
+public GoBildaPinpointDriver ppointdr= null;
 
-    private DcMotor backLeft, backRight, frontLeft, frontRight;
-    private DcMotorEx flywheel;
-    private DcMotor intake, transfer;
-    public DcMotor transfer_Motor1 = null;
-    public DcMotor transfer_Motor2 = null;
+private ElapsedTime runtime = new ElapsedTime();
 
-    @Override
-    public void runOpMode() {
-
-        // Hardware mapping
-        backLeft = hardwareMap.get(DcMotor.class, "backLeft");
-        backRight = hardwareMap.get(DcMotor.class, "backRight");
-        frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
-        frontRight = hardwareMap.get(DcMotor.class, "frontRight");
-        flywheel = hardwareMap.get(DcMotorEx.class, "flywheel");
-        intake = hardwareMap.get(DcMotor.class, "intake");
-        transfer_Motor1 = hardwareMap.get(DcMotor.class,"tran_DcMotor1");
-        transfer_Motor2 = hardwareMap.get(DcMotor.class,"tran_DcMotor2");
+// we use a varible so we can change the power easily later on
+static final double FORWARD_POWER = 0.1;
+static final long DRIVE_TIME_MS = 2800;
 
 
-        // Directions
-        frontLeft.setDirection(DcMotor.Direction.REVERSE);
-        frontRight.setDirection(DcMotor.Direction.FORWARD);
-        backLeft.setDirection(DcMotor.Direction.FORWARD);
-        backRight.setDirection(DcMotor.Direction.REVERSE);
-        flywheel.setDirection(DcMotor.Direction.REVERSE);
 
-        waitForStart();
 
-        if (opModeIsActive()) {
+@Override
+public void runOpMode() {
+    left_drive = hardwareMap.get(DcMotor.class, "left_drive");
+    right_drive = hardwareMap.get(DcMotor.class, "right_drive");
+    left_2drive = hardwareMap.get(DcMotor.class, "left_2drive");
+    right_2drive = hardwareMap.get(DcMotor.class, "right_2drive");
+    flywheel = hardwareMap.get(DcMotor.class, "shooter");
+    intake = hardwareMap.get(DcMotor.class, "intake");
+    tran_DcMotor1 = hardwareMap.get(DcMotor.class, "tran_DcMotor1");
+    tran_DcMotor2 = hardwareMap.get(DcMotor.class, "tran_DcMotor2");
+    left_drive.setDirection(DcMotor.Direction.FORWARD);
+    right_drive.setDirection(DcMotor.Direction.REVERSE);
+    left_2drive.setDirection(DcMotor.Direction.FORWARD);
+    right_2drive.setDirection(DcMotor.Direction.REVERSE);
 
-            // Drive backward
-            frontLeft.setPower(-0.4);
-            frontRight.setPower(-0.4);
-            backLeft.setPower(-0.4);
-            backRight.setPower(-0.4);
-            sleep(500);
 
-            // Stop drive
-            frontLeft.setPower(0);
-            frontRight.setPower(0);
-            backLeft.setPower(0);
-            backRight.setPower(0);
+    waitForStart();
+    if (opModeIsActive()) {
 
-            // ----------------------------
-//            int targetRPM = 2800;
-//            double ticksPerRev = 28;
-//            double targetVelocity = (targetRPM / 60.0) * ticksPerRev;
-//
-//            flywheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//            flywheel.setVelocity(targetVelocity);  // << actual speed control
-//
-//            sleep(2000); // allow time to reach speed
-//
-//            // Run intake/transfer
-//            intake.setPower(1.0);
-//            transfer_Motor1.setPower(-1.0);
-//            transfer_Motor1.setPower(-1.0);
-//            sleep(1000);
-//
-//            intake.setPower(1.0);
-//            transfer_Motor1.setPower(-1.0);
-//            transfer_Motor1.setPower(-1.0);
-//            sleep(1000);
-//
-//            intake.setPower(1.0);
-//            transfer_Motor1.setPower(-1.0);
-//            transfer_Motor1.setPower(-1.0);
-//            sleep(1000);
-//
-//            // Stop intake/transfer
-//            intake.setPower(0);
-//            transfer_Motor1.setPower(0);
-//            transfer_Motor2.setPower(0);
-//
-//            // Extra flywheel time
-//            sleep(1000);
-//
-//            // Stop flywheel
-//            flywheel.setVelocity(0);
-
-            sleep(500);
-            frontLeft.setPower(-0.5);
-            frontRight.setPower(0.5);
-            backLeft.setPower(-0.5);
-            backRight.setPower(0.5);
-
-            sleep(500);
-            frontLeft.setPower(-0.3);
-            frontRight.setPower(-0.3);
-            backLeft.setPower(-0.3);
-            backRight.setPower(-0.3);
-            sleep(1000);
-
-        }
+        // SLEEP = Time to run command before moving to the next, in miliseconds
+        left_drive.setPower(-.4);
+        right_drive.setPower(-.4);
+        left_2drive.setPower(-.4);
+        right_2drive.setPower(-.4);
+        sleep(3900);
+        left_drive.setPower(.4);
+        right_drive.setPower(-.4);
+        left_2drive.setPower(.4);
+        right_2drive.setPower(-.4);
+        sleep(600);
+        left_drive.setPower(0);
+        right_drive.setPower(0);
+        left_2drive.setPower(0);
+        right_2drive.setPower(0);
+        flywheel.setPower(.58);
+        sleep(2000);
+        tran_DcMotor2.setPower(1);
+        sleep(2000);
+        tran_DcMotor1.setPower(-1);
+        sleep(2000);
+        intake.setPower(1);
+        sleep(1000);
+        tran_DcMotor1.setPower(0);
+        tran_DcMotor2.setPower(0);
+        flywheel.setPower(0);
+        intake.setPower(0);
+        //new
+        left_drive.setPower(.3);
+        right_drive.setPower(-.3);
+        left_2drive.setPower(.3);
+        right_2drive.setPower(-.3);
+        sleep(450);
+        left_drive.setPower(.35);
+        right_drive.setPower(-.35);
+        left_2drive.setPower(-.35);
+        right_2drive.setPower(.35);
+        sleep(350);
+        tran_DcMotor2.setPower(1);
+        tran_DcMotor1.setPower(-1);
+        intake.setPower(1);
+        sleep(1000);
+        left_drive.setPower(-.3);
+        right_drive.setPower(-.3);
+        left_2drive.setPower(-.3);
+        right_2drive.setPower(-.3);
+        sleep(2300);
+        tran_DcMotor2.setPower(0);
+        tran_DcMotor1.setPower(0);
+        sleep(1000);
+        intake.setPower(0);
+        left_drive.setPower(.3);
+        right_drive.setPower(.3);
+        left_2drive.setPower(.3);
+        right_2drive.setPower(.3);
+        sleep(2300);
     }
-}
+}}
