@@ -127,8 +127,8 @@ public class OurTeleop extends OpMode{
     public void loop() {
 
         double y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
-        double x = -gamepad1.left_stick_x * .5; // Counteract imperfect strafing
-        double rx =  -gamepad1.right_stick_x * .6;
+        double x = -gamepad1.left_stick_x * .4; // Counteract imperfect strafing
+        double rx =  -gamepad1.right_stick_x * .45;
 
         // Denominator is the largest motor power (absolute value) or 1
         // This ensures all the powers maintain the same ratio,
@@ -162,13 +162,13 @@ public class OurTeleop extends OpMode{
 //        servo values: forward=1 stop=0 reverse=-1
         if (gamepad2.aWasPressed())
         {
-            intake.setPower(.5);
+            intake.setPower(.75);
         }
         if (gamepad2.bWasPressed()) {
             intake.setPower(0);
         }
         if (gamepad2.yWasPressed()) {
-            intake.setPower(-.5);
+            intake.setPower(-.75);
         }
 
         if (gamepad2.right_trigger >.1) {
