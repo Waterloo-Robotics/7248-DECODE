@@ -54,10 +54,10 @@ public void runOpMode() {
         left_2drive.setPower(-.4);
         right_2drive.setPower(-.4);
         sleep(3900);
-        left_drive.setPower(.4);
-        right_drive.setPower(-.4);
-        left_2drive.setPower(.4);
-        right_2drive.setPower(-.4);
+        left_drive.setPower(-.4);
+        right_drive.setPower(.4);
+        left_2drive.setPower(-.4);
+        right_2drive.setPower(.4);
         sleep(600);
         left_drive.setPower(0);
         right_drive.setPower(0);
@@ -70,21 +70,21 @@ public void runOpMode() {
         tran_DcMotor1.setPower(-1);
         sleep(2000);
         intake.setPower(1);
-        sleep(1000);
+        sleep(2000);
         tran_DcMotor1.setPower(0);
         tran_DcMotor2.setPower(0);
         flywheel.setPower(0);
         intake.setPower(0);
         //new
-        left_drive.setPower(.3);
-        right_drive.setPower(-.3);
-        left_2drive.setPower(.3);
-        right_2drive.setPower(-.3);
+        left_drive.setPower(-.3);
+        right_drive.setPower(.3);
+        left_2drive.setPower(-.3);
+        right_2drive.setPower(.3);
         sleep(450);
-        left_drive.setPower(.35);
-        right_drive.setPower(-.35);
-        left_2drive.setPower(-.35);
-        right_2drive.setPower(.35);
+        left_drive.setPower(-.35);
+        right_drive.setPower(.35);
+        left_2drive.setPower(.35);
+        right_2drive.setPower(-.35);
         sleep(350);
         tran_DcMotor2.setPower(1);
         tran_DcMotor1.setPower(-1);
@@ -104,5 +104,32 @@ public void runOpMode() {
         left_2drive.setPower(.3);
         right_2drive.setPower(.3);
         sleep(2300);
+        left_drive.setPower(-.35);
+        right_drive.setPower(.35);
+        left_2drive.setPower(.35);
+        right_2drive.setPower(-.35);
+        sleep(1750);
+        left_drive.setPower(.3);
+        right_drive.setPower(-.3);
+        left_2drive.setPower(.3);
+        right_2drive.setPower(-.3);
+        sleep(425);
+        left_drive.setPower(0);
+        right_drive.setPower(0);
+        left_2drive.setPower(0);
+        right_2drive.setPower(0);
+        flywheel.setPower(.58);
+        sleep(2000);
+        tran_DcMotor2.setPower(1);
+        sleep(2000);
+        tran_DcMotor1.setPower(-1);
+        sleep(2000);
+        intake.setPower(1);
+        sleep(1000);
+        tran_DcMotor1.setPower(0);
+        tran_DcMotor2.setPower(0);
+        flywheel.setPower(0);
+        intake.setPower(0);
     }
+
 }}
