@@ -49,6 +49,7 @@ public void runOpMode() {
     if (opModeIsActive()) {
 
         // SLEEP = Time to run command before moving to the next, in miliseconds
+        sleep(111);
         left_drive.setPower(-.4);
         right_drive.setPower(-.4);
         left_2drive.setPower(-.4);
@@ -70,31 +71,30 @@ public void runOpMode() {
         tran_DcMotor1.setPower(-1);
         sleep(2000);
         intake.setPower(1);
-        sleep(2000);
+        sleep(1000);
         tran_DcMotor1.setPower(0);
         tran_DcMotor2.setPower(0);
         flywheel.setPower(0);
         intake.setPower(0);
         //new
-        left_drive.setPower(-.3);
-        right_drive.setPower(.3);
-        left_2drive.setPower(-.3);
-        right_2drive.setPower(.3);
+        left_drive.setPower(-.35);
+        right_drive.setPower(.35);
+        left_2drive.setPower(-.35);
+        right_2drive.setPower(.35);
         sleep(450);
         left_drive.setPower(-.35);
         right_drive.setPower(.35);
         left_2drive.setPower(.35);
         right_2drive.setPower(-.35);
-        sleep(350);
-        tran_DcMotor2.setPower(1);
-        tran_DcMotor1.setPower(-1);
-        intake.setPower(1);
+        tran_DcMotor2.setPower(.2);
+        tran_DcMotor1.setPower(-.2);
+        intake.setPower(.2);
         sleep(1000);
         left_drive.setPower(-.3);
         right_drive.setPower(-.3);
         left_2drive.setPower(-.3);
         right_2drive.setPower(-.3);
-        sleep(2300);
+        sleep(1500);
         tran_DcMotor2.setPower(0);
         tran_DcMotor1.setPower(0);
         sleep(1000);
@@ -109,10 +109,10 @@ public void runOpMode() {
         left_2drive.setPower(.35);
         right_2drive.setPower(-.35);
         sleep(1750);
-        left_drive.setPower(.3);
-        right_drive.setPower(-.3);
-        left_2drive.setPower(.3);
-        right_2drive.setPower(-.3);
+        left_drive.setPower(.35);
+        right_drive.setPower(-.35);
+        left_2drive.setPower(.35);
+        right_2drive.setPower(-.35);
         sleep(425);
         left_drive.setPower(0);
         right_drive.setPower(0);

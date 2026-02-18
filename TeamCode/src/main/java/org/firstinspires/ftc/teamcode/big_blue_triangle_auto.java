@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@Autonomous(name="big triangle Auto")
-public class big_triangle_auto extends LinearOpMode {
+@Autonomous(name="big blue triangle Auto")
+public class big_blue_triangle_auto extends LinearOpMode {
     public DcMotor left_drive = null;
     public DcMotor right_drive = null;
     public DcMotor left_2drive = null;
@@ -50,6 +50,11 @@ public class big_triangle_auto extends LinearOpMode {
 
             // SLEEP = Time to run command before moving to the next, in miliseconds
             sleep(750);
+            left_drive.setPower(.3);
+            right_drive.setPower(-.3);
+            left_2drive.setPower(.3);
+            right_2drive.setPower(-.3);
+            sleep(450);
             left_drive.setPower(.7);
             right_drive.setPower(.7);
             left_2drive.setPower(.7);
@@ -60,6 +65,61 @@ public class big_triangle_auto extends LinearOpMode {
             left_2drive.setPower(0);
             right_2drive.setPower(0);
             flywheel.setPower(.6);
+            sleep(2000);
+            tran_DcMotor2.setPower(1);
+            sleep(2000);
+            tran_DcMotor1.setPower(-1);
+            sleep(2000);
+            intake.setPower(1);
+            sleep(1000);
+            tran_DcMotor1.setPower(0);
+            tran_DcMotor2.setPower(0);
+            flywheel.setPower(0);
+            intake.setPower(0);
+//            new
+            left_drive.setPower(.3);
+            right_drive.setPower(-.3);
+            left_2drive.setPower(.3);
+            right_2drive.setPower(-.3);
+            sleep(450);
+            left_drive.setPower(.35);
+            right_drive.setPower(-.35);
+            left_2drive.setPower(-.35);
+            right_2drive.setPower(.35);
+            sleep(1000);
+            tran_DcMotor2.setPower(1);
+            tran_DcMotor1.setPower(-1);
+            intake.setPower(1);
+            sleep(1200);
+            left_drive.setPower(-.3);
+            right_drive.setPower(-.3);
+            left_2drive.setPower(-.3);
+            right_2drive.setPower(-.3);
+            sleep(2300);
+            tran_DcMotor2.setPower(0);
+            tran_DcMotor1.setPower(0);
+            sleep(1000);
+            intake.setPower(0);
+            left_drive.setPower(.3);
+            right_drive.setPower(.3);
+            left_2drive.setPower(.3);
+            right_2drive.setPower(.3);
+            sleep(2300);
+            left_drive.setPower(-.35);
+            right_drive.setPower(.35);
+            left_2drive.setPower(.35);
+            right_2drive.setPower(-.35);
+            sleep(1750);
+            left_drive.setPower(-.3);
+            right_drive.setPower(.3);
+            left_2drive.setPower(-.3);
+            right_2drive.setPower(.3);
+            sleep(425);
+            left_drive.setPower(0);
+            right_drive.setPower(0);
+            left_2drive.setPower(0);
+            right_2drive.setPower(0);
+            flywheel.setPower(.58);
             sleep(2000);
             tran_DcMotor2.setPower(1);
             sleep(2000);
