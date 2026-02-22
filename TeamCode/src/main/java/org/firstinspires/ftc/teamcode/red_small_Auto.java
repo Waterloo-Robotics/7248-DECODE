@@ -104,10 +104,10 @@ public void runOpMode() {
         left_2drive.setPower(.3);
         right_2drive.setPower(.3);
         sleep(2300);
-        left_drive.setPower(-.35);
-        right_drive.setPower(.35);
-        left_2drive.setPower(.35);
-        right_2drive.setPower(-.35);
+        left_drive.setPower(.35);
+        right_drive.setPower(-.35);
+        left_2drive.setPower(-.35);
+        right_2drive.setPower(.35);
         sleep(1750);
         left_drive.setPower(.35);
         right_drive.setPower(-.35);
